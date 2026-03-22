@@ -1,0 +1,140 @@
+"use client";
+
+import React, { createContext, useContext, useState, useEffect } from "react";
+
+type Language = "ar" | "en";
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+  dir: "rtl" | "ltr";
+}
+
+const translations = {
+  ar: {
+    home: "الرئيسية",
+    aboutUs: "من نحن",
+    policies: "السياسات",
+    products: "المنتجات",
+    orders: "الطلبات",
+    support: "الدعم",
+    tagline: "كل شيء في سون ستور",
+    allRightsReserved: "جميع الحقوق محفوظة © 2026",
+    customBots: "روبوتات مخصصة",
+    customBotsDesc: "روبوتات مخصصة حسب طلب المستخدم",
+    websites: "مواقع إلكترونية",
+    websitesDesc: "مواقع مخصصة مع خدمات كاملة",
+    discordDesigns: "تصاميم ديسكورد",
+    discordDesignsDesc: "تصاميم ديسكورد مخصصة تشمل الصور والميزات",
+    discordBoosts: "بوستات ديسكورد",
+    discordBoostsDesc: "بوستات سيرفرات بكميات محددة",
+    discordNitros: "ديسكورد نيترو",
+    discordNitrosDesc: "ديسكورد نيترو مع ميزات محسنة",
+    stock: "المخزون",
+    unlimited: "غير محدود",
+    left: "متبقٍ",
+    price: "السعر",
+    goToLink: "الذهاب للرابط",
+    servicesPolicy: "سياسة الخدمات",
+    policy1: "الدفع قبل بدء العمل",
+    policy2: "جميع الأموال غير قابلة للاسترداد",
+    policy3: "احترام جميع موظفي المتجر في جميع الأوقات",
+    policy4: "جميع الحقوق محفوظة لـ سون ستور",
+    aboutDesc: "سون ستور هو وجهتك الأولى لجميع الخدمات الرقمية. نحن نقدم حلولاً مبتكرة من روبوتات ديسكورد، وتطوير المواقع، وتصاميم احترافية لتلبية احتياجاتك بأعلى جودة.",
+    orderName: "اسم الطلب",
+    quantity: "الكمية",
+    description: "الوصف",
+    customerName: "اسم العميل",
+    orderTime: "وقت الطلب",
+    progress: "نسبة الإنجاز",
+  },
+  en: {
+    home: "Home",
+    aboutUs: "About Us",
+    policies: "Policies",
+    products: "Products",
+    orders: "Orders",
+    support: "Support",
+    tagline: "All in Soon Store",
+    allRightsReserved: "All rights reserved © 2026",
+    customBots: "Custom Bots",
+    customBotsDesc: "Customized bots per user request",
+    websites: "Websites",
+    websitesDesc: "Custom websites with full services",
+    discordDesigns: "Discord Designs",
+    discordDesignsDesc: "Custom Discord designs including images and features",
+    discordBoosts: "Discord Boosts",
+    discordBoostsDesc: "Server boosts with specified quantity",
+    discordNitros: "Discord Nitros",
+    discordNitrosDesc: "Discord Nitro with enhanced features",
+    stock: "Stock",
+    unlimited: "Unlimited",
+    left: "left",
+    price: "Price",
+    goToLink: "Go to link",
+    servicesPolicy: "Services Policy",
+    policy1: "Payment before work begins",
+    policy2: "All funds are non-refundable",
+    policy3: "Respect all store personnel at all times",
+    policy4: "All rights reserved to Soon Store",
+    aboutDesc: "Soon Store is your premier destination for all digital services. We provide innovative solutions from Discord bots, web development, and professional designs to meet your needs with the highest quality.",
+    orderName: "Order Name",
+    quantity: "Quantity",
+    description: "Description",
+    customerName: "Customer Name",
+    orderTime: "Order Time",
+    progress: "Progress",
+  },
+};
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguage] = useState<Language>("ar");
+
+  useEffect(() => {
+    try {
+      const savedLang = localStorage.getItem("language") as Language;
+      if (savedLang && (savedLang === "ar" || savedLang === "en")) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLanguage(savedLang);
+      }
+    } catch (e) {
+      console.warn("localStorage is not available:", e);
+    }
+  }, []);
+
+  const handleSetLanguage = (lang: Language) => {
+    setLanguage(lang);
+    try {
+      localStorage.setItem("language", lang);
+    } catch (e) {
+      console.warn("localStorage is not available:", e);
+    }
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lang;
+  };
+
+  const t = (key: string) => {
+    return (translations[language] as any)[key] || key;
+  };
+
+  return (
+    <LanguageContext.Provider
+      value={{ language, setLanguage: handleSetLanguage, t, dir: language === "ar" ? "rtl" : "ltr" }}
+    >
+      <div dir={language === "ar" ? "rtl" : "ltr"} className="w-full h-full min-h-screen">
+        {children}
+      </div>
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error("useLanguage must be used within a LanguageProvider");
+  }
+  return context;
+}
