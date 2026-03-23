@@ -15,14 +15,15 @@ export function SectionHeader() {
       transition={{ duration: 0.5 }}
       className="flex flex-col items-center text-center mb-12 gap-4"
     >
-      <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-primary/10 shadow-xl">
+      <div className="relative w-24 h-24 md:w-32 md:h-32">
         <Image
           src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png"
           alt="Soon Store"
           fill
-          className="object-cover"
+          className="object-contain dark:brightness-100 brightness-0"
           sizes="(max-width: 768px) 96px, 128px"
           referrerPolicy="no-referrer"
+          unoptimized
         />
       </div>
       <div className="flex flex-col gap-1">

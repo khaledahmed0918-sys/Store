@@ -17,14 +17,16 @@ export const metadata: Metadata = {
 };
 
 import { GlobalErrorLogger } from '@/components/global-error-logger';
+import { BackgroundElements } from '@/components/background-elements';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className={`${inter.variable} ${cairo.variable} overflow-x-hidden`}>
+      <body className={`${inter.variable} ${cairo.variable} overflow-x-hidden relative`}>
         <GlobalErrorLogger />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <LanguageProvider>
+            <BackgroundElements />
             {children}
           </LanguageProvider>
         </ThemeProvider>

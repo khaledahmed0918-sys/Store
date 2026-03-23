@@ -14,15 +14,15 @@ export function Footer({ setCurrentSection }: FooterProps) {
   const sections = ["home", "aboutUs", "policies", "products", "orders", "support"];
 
   return (
-    <footer className="glass border-t border-primary/5 mt-auto py-12 relative z-10 pb-32 md:pb-12">
+    <footer className="glass border-t border-primary/10 mt-auto py-12 relative z-10 pb-32 md:pb-12 bg-background/50 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-8">
-        <div className="flex items-center gap-4 cursor-pointer" onClick={() => setCurrentSection("home")}>
-          <div className="rounded-full shadow-lg">
-            <Image src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png" alt="Soon Store" width={48} height={48} className="rounded-full" />
+        <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setCurrentSection("home")}>
+          <div className="relative w-12 h-12 transition-all duration-300 group-hover:scale-105">
+            <Image src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png" alt="Soon Store" fill className="object-contain" unoptimized />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-2xl text-gradient">Soon Store</span>
-            <span className="text-sm text-foreground/70">{t("tagline")}</span>
+            <span className="font-bold text-2xl text-foreground group-hover:text-foreground/80 transition-colors">Soon Store</span>
+            <span className="text-sm text-foreground/50">{t("tagline")}</span>
           </div>
         </div>
         
@@ -31,16 +31,16 @@ export function Footer({ setCurrentSection }: FooterProps) {
             <button 
               key={section} 
               onClick={() => setCurrentSection(section)}
-              className="hover:text-primary transition-colors cursor-pointer"
+              className="hover:text-foreground transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-primary/5"
             >
               {t(section)}
             </button>
           ))}
         </div>
         
-        <div className="w-full h-px bg-primary/5 max-w-md" />
+        <div className="w-full h-px bg-primary/10 max-w-md" />
         
-        <p className="text-sm text-foreground/50">{t("allRightsReserved")}</p>
+        <p className="text-sm text-foreground/40">{t("allRightsReserved")}</p>
       </div>
     </footer>
   );

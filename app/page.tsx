@@ -22,7 +22,7 @@ export default function Page() {
   const renderSection = () => {
     switch (currentSection) {
       case "home":
-        return <HomeSection />;
+        return <HomeSection setCurrentSection={setCurrentSection} />;
       case "aboutUs":
         return <AboutSection />;
       case "policies":
@@ -34,7 +34,7 @@ export default function Page() {
       case "support":
         return <SupportSection />;
       default:
-        return <HomeSection />;
+        return <HomeSection setCurrentSection={setCurrentSection} />;
     }
   };
 

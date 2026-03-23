@@ -3,7 +3,7 @@
 import React from "react";
 import { useLanguage } from "./language-provider";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Globe } from "lucide-react";
+import { Moon, Sun, Globe, Home, Info, Shield, Package, ShoppingCart, Headphones } from "lucide-react";
 import Image from "next/image";
 
 interface NavbarProps {
@@ -11,21 +11,32 @@ interface NavbarProps {
   setCurrentSection: (section: string) => void;
 }
 
-const NavItem = ({ sectionKey, currentSection, setCurrentSection, t }: { sectionKey: string, currentSection: string, setCurrentSection: (section: string) => void, t: (key: string) => string }) => {
+const sectionIcons: Record<string, React.ElementType> = {
+  home: Home,
+  aboutUs: Info,
+  policies: Shield,
+  products: Package,
+  orders: ShoppingCart,
+  support: Headphones,
+};
+
+const NavItem = ({ sectionKey, currentSection, setCurrentSection, t, language }: { sectionKey: string, currentSection: string, setCurrentSection: (section: string) => void, t: (key: string) => string, language: string }) => {
   const isActive = currentSection === sectionKey;
+  const Icon = sectionIcons[sectionKey];
+  
+  const renderText = () => {
+    return <span>{t(sectionKey)}</span>;
+  };
+
   return (
     <button
       onClick={() => setCurrentSection(sectionKey)}
-      className={`relative px-3 py-2 text-sm md:text-base font-medium transition-colors duration-300 ${
-        isActive ? "text-primary" : "text-foreground/70 hover:text-foreground"
+      className={`relative px-3 py-2 flex items-center gap-2 text-sm md:text-base font-medium transition-all duration-300 rounded-xl whitespace-nowrap ${
+        isActive ? "text-primary bg-primary/10 shadow-[0_0_15px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)]" : "text-foreground/70 hover:text-foreground hover:bg-primary/5"
       }`}
     >
-      {t(sectionKey)}
-      {isActive && (
-        <div
-          className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-        />
-      )}
+      {Icon && <Icon className="w-4 h-4 flex-shrink-0" />}
+      {renderText()}
     </button>
   );
 };
@@ -39,104 +50,100 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
     setMounted(true);
   }, []);
 
-  const rightOfLogo = ["aboutUs", "policies"];
-  const leftOfLogo = ["products", "orders"];
-
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Mobile Logo/Title */}
-            <div className="flex items-center gap-3 md:hidden">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden shadow-sm">
-                <Image 
-                  src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png" 
-                  alt="Soon Store" 
-                  fill 
-                  className="object-cover" 
-                  sizes="40px"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <span className="font-bold text-xl tracking-tight text-gradient">Soon Store</span>
-            </div>
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-6 py-3 flex items-center justify-between shadow-2xl border border-primary/20 bg-background/40 backdrop-blur-xl transition-all duration-500 w-[95vw] max-w-7xl">
+        
+        {/* Group A: Products, Orders, Policies, About Us (Left side) */}
+        <div className="hidden md:flex items-center gap-6 flex-1 justify-start">
+          <NavItem sectionKey="products" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+          <NavItem sectionKey="orders" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+          <NavItem sectionKey="policies" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+          <NavItem sectionKey="aboutUs" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+        </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex flex-1 items-center justify-center gap-8">
-              {/* Left Group (Products, Orders) */}
-              <div className="flex items-center gap-4 rtl:flex-row-reverse">
-                {leftOfLogo.map((s) => (
-                  <NavItem key={s} sectionKey={s} currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />
-                ))}
-              </div>
+        {/* Group B: Home Logo + Home Text (Absolute Center) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 cursor-pointer z-50 group" onClick={() => setCurrentSection("home")}>
+          <div className={`relative w-10 h-10 transition-all duration-500`}>
+            <Image 
+              src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png" 
+              alt="Soon Store" 
+              fill 
+              className={`object-contain dark:brightness-100 brightness-0 transition-all duration-300 group-hover:scale-105`} 
+              sizes="40px"
+              referrerPolicy="no-referrer"
+              unoptimized
+            />
+          </div>
+          <div className={`hidden sm:flex items-center gap-2 text-sm md:text-base font-bold transition-all duration-300 ${currentSection === 'home' ? 'text-primary' : 'text-foreground/70 group-hover:text-foreground'}`}>
+            <Home className="w-4 h-4" />
+            <span>{t("home")}</span>
+          </div>
+        </div>
 
-              {/* Centered Logo */}
-              <div className="flex flex-col items-center justify-center cursor-pointer px-4" onClick={() => setCurrentSection("home")}>
-                <div className="relative w-14 h-14">
-                  <div 
-                    className={`relative w-full h-full rounded-full overflow-hidden transition-all duration-300 ${currentSection === 'home' ? 'border-2 border-primary' : 'border-2 border-transparent'}`}
-                  >
-                    <Image 
-                      src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png" 
-                      alt="Soon Store" 
-                      fill 
-                      className="object-cover" 
-                      sizes="56px"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                </div>
-                <span className={`text-[10px] mt-1 font-bold tracking-widest uppercase transition-colors duration-300 ${currentSection === 'home' ? 'text-primary' : 'text-foreground/40'}`}>
-                  {t("home")}
-                </span>
-              </div>
-
-              {/* Right Group (About Us, Policies) */}
-              <div className="flex items-center gap-4 rtl:flex-row-reverse">
-                {rightOfLogo.map((s) => (
-                  <NavItem key={s} sectionKey={s} currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />
-                ))}
-              </div>
-            </div>
-
-            {/* Controls + Support */}
-            <div className="flex items-center gap-2 flex-1 justify-end rtl:justify-start">
-              <div className="hidden md:flex items-center gap-4 me-4 border-e border-primary/10 pe-4 rtl:border-e-0 rtl:border-s rtl:pe-0 rtl:ps-4">
-                <NavItem sectionKey="support" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-2 rounded-xl hover:bg-primary/5 transition-all duration-300"
-                  aria-label="Toggle Theme"
-                >
-                  {mounted ? (
-                    theme === "dark" ? <Sun className="w-5 h-5 text-foreground/70" /> : <Moon className="w-5 h-5 text-foreground/70" />
-                  ) : (
-                    <div className="w-5 h-5" />
-                  )}
-                </button>
-                <button
-                  onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-                  className="p-2 rounded-xl hover:bg-primary/5 transition-all duration-300"
-                  aria-label="Toggle Language"
-                >
-                  <Globe className="w-5 h-5 text-foreground/70" />
-                </button>
-              </div>
-            </div>
+        {/* Group C: Controls + Support (Right side) */}
+        <div className="flex items-center gap-4 flex-1 justify-end">
+          <div className="hidden md:flex items-center gap-4">
+            <NavItem sectionKey="support" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+            <div className="w-px h-6 bg-primary/20" />
+            <button
+              onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+              className="p-2 rounded-full hover:bg-primary/10 transition-all duration-300 text-foreground"
+              aria-label="Toggle Language"
+            >
+              <Globe className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="p-2 rounded-full hover:bg-primary/10 transition-all duration-300 text-foreground"
+              aria-label="Toggle Theme"
+            >
+              {mounted ? (
+                theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />
+              ) : (
+                <div className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+          
+          {/* Mobile Controls */}
+          <div className="md:hidden flex items-center gap-4">
+            <button
+              onClick={() => setCurrentSection("support")}
+              className={`p-2 rounded-full transition-all duration-300 ${currentSection === 'support' ? 'text-primary bg-primary/10' : 'text-foreground/70 hover:text-foreground hover:bg-primary/10'}`}
+              aria-label="Support"
+            >
+              <Headphones className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+              className="p-2 rounded-full hover:bg-primary/10 transition-all duration-300 text-foreground"
+              aria-label="Toggle Language"
+            >
+              <Globe className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="p-2 rounded-full hover:bg-primary/10 transition-all duration-300 text-foreground"
+              aria-label="Toggle Theme"
+            >
+              {mounted ? (
+                theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />
+              ) : (
+                <div className="w-5 h-5" />
+              )}
+            </button>
           </div>
         </div>
       </nav>
       
       {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-6 left-4 right-4 z-50 glass rounded-3xl border border-primary/10 shadow-2xl px-2 py-2 flex items-center justify-around no-scrollbar overflow-x-auto">
-        <NavItem sectionKey="home" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />
-        {rightOfLogo.map((s) => <NavItem key={s} sectionKey={s} currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />)}
-        {leftOfLogo.map((s) => <NavItem key={s} sectionKey={s} currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />)}
-        <NavItem sectionKey="support" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />
+      <div className="md:hidden fixed bottom-6 left-4 right-4 z-50 glass rounded-3xl border border-primary/20 bg-background/40 backdrop-blur-xl shadow-2xl px-2 py-2 flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
+        <NavItem sectionKey="home" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+        <NavItem sectionKey="products" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+        <NavItem sectionKey="orders" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+        <NavItem sectionKey="policies" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+        <NavItem sectionKey="aboutUs" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
       </div>
     </>
   );
