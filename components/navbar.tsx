@@ -101,7 +101,7 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
             </div>
 
             {/* Controls + Support */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-1 justify-end rtl:justify-start">
               <div className="hidden md:flex items-center gap-4 me-4 border-e border-primary/10 pe-4 rtl:border-e-0 rtl:border-s rtl:pe-0 rtl:ps-4">
                 <NavItem sectionKey="support" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} />
               </div>
