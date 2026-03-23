@@ -124,7 +124,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     <LanguageContext.Provider
       value={{ language, setLanguage: handleSetLanguage, t, dir: language === "ar" ? "rtl" : "ltr" }}
     >
-      {console.log("LanguageProvider mounted")}
       <div dir={language === "ar" ? "rtl" : "ltr"} className="w-full h-full min-h-screen">
         {children}
       </div>
