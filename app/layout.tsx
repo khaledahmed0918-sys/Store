@@ -16,10 +16,13 @@ export const metadata: Metadata = {
   },
 };
 
+import { GlobalErrorLogger } from '@/components/global-error-logger';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body className={`${inter.variable} ${cairo.variable} overflow-x-hidden`}>
+        <GlobalErrorLogger />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <LanguageProvider>
             {children}

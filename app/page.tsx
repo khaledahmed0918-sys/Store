@@ -12,6 +12,7 @@ import { SupportSection } from "@/components/sections/support";
 import { Footer } from "@/components/footer";
 
 export default function Page() {
+  console.log("Page component mounted");
   const [currentSection, setCurrentSection] = useState("home");
 
   React.useEffect(() => {
