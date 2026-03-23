@@ -154,7 +154,7 @@ export function HomeSection({ setCurrentSection }: HomeSectionProps) {
                   <motion.div
                     initial={{ backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(150,150,150,0.3)", boxShadow: "none" }}
                     whileInView={{ backgroundColor: "#0f0", borderColor: "#0f0", boxShadow: "0 0 15px rgba(0,255,0,0.6)" }}
-                    viewport={{ once: true, margin: "-150px" }}
+                    viewport={{ once: false, margin: "-150px" }}
                     transition={{ duration: 0.5 }}
                     className="w-4 h-4 rounded-full border-4 transition-all"
                   />

@@ -55,7 +55,7 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-6 py-3 flex items-center justify-between shadow-2xl border border-primary/20 bg-background/40 backdrop-blur-xl transition-all duration-500 w-[95vw] max-w-7xl">
         
         {/* Group A: Products, Orders (Left side) */}
-        <div className="flex items-center gap-2 flex-1 justify-start">
+        <div className="flex items-center gap-2 flex-1 justify-between md:justify-start md:gap-6">
           <NavItem sectionKey="products" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
           <NavItem sectionKey="orders" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
         </div>
@@ -76,11 +76,10 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
         </div>
 
         {/* Group C: Policies, About Us, Controls + Support (Right side) */}
-        <div className="flex items-center gap-2 flex-1 justify-end">
-          <div className="hidden md:flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-1 justify-between md:justify-end md:gap-6">
+          <div className="hidden md:flex items-center gap-6">
             <NavItem sectionKey="policies" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
             <NavItem sectionKey="aboutUs" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
-            <div className="w-px h-6 bg-primary/20 mx-2" />
             <NavItem sectionKey="support" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
             <button
               onClick={() => setLanguage(language === "ar" ? "en" : "ar")}

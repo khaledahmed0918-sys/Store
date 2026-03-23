@@ -14,15 +14,12 @@ interface BgElement {
 }
 
 export function BackgroundElements() {
-  const elements = [
-    { src: "https://i.postimg.cc/Hkv86CRZ/gq_Oss_JR5.png", size: 96, opacity: 0.3, top: "15%", left: "10%" },
-    { src: "https://i.postimg.cc/wj4Rwdnd/4REp_Nsla.png", size: 128, opacity: 0.3, top: "25%", left: "75%" },
-    { src: "https://i.postimg.cc/GmgTX16R/u_VWd2G9V.png", size: 80, opacity: 0.2, top: "55%", left: "15%" },
-    { src: "https://i.postimg.cc/3xxDjwSV/Ti_A7AOJP.png", size: 112, opacity: 0.2, top: "65%", left: "70%" },
-    { src: "https://i.postimg.cc/t44VdgSF/ff_Sr_Swyx.png", size: 64, opacity: 0.2, top: "35%", left: "5%" },
-    { src: "https://i.postimg.cc/htt78Gys/d_CW6Uazt.png", size: 96, opacity: 0.2, top: "80%", left: "20%" },
-    { src: "https://i.postimg.cc/JzHRWVGn/xgb1eg1d.png", size: 80, opacity: 0.2, top: "85%", left: "80%" },
-  ];
+  const elements = React.useMemo(() => [
+    { src: "https://i.postimg.cc/Hkv86CRZ/gq_Oss_JR5.png", size: 96, opacity: 0.3, top: "20%", left: "15%", duration: 25 },
+    { src: "https://i.postimg.cc/wj4Rwdnd/4REp_Nsla.png", size: 128, opacity: 0.3, top: "30%", left: "70%", duration: 30 },
+    { src: "https://i.postimg.cc/GmgTX16R/u_VWd2G9V.png", size: 80, opacity: 0.2, top: "60%", left: "20%", duration: 22 },
+    { src: "https://i.postimg.cc/3xxDjwSV/Ti_A7AOJP.png", size: 112, opacity: 0.2, top: "70%", left: "65%", duration: 28 },
+  ], []);
 
   return (
     <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none w-full h-full">
@@ -39,15 +36,13 @@ export function BackgroundElements() {
             height: el.size,
           }}
           animate={{
-            y: [0, -20, 0],
-            x: [0, 15, 0],
-            rotate: [0, 5, 0],
+            y: [0, -15, 0],
+            x: [0, 10, 0],
           }}
           transition={{
-            duration: 15 + Math.random() * 10,
+            duration: el.duration,
             repeat: Infinity,
-            ease: "easeInOut",
-            delay: idx * 1.5,
+            ease: "linear",
           }}
         >
           <Image src={el.src} alt="bg" fill className="object-contain" unoptimized />
