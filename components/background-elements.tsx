@@ -25,29 +25,31 @@ export function BackgroundElements() {
     <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none w-full h-full">
       {/* Floating Icons */}
       {elements.map((el, idx) => (
-        <motion.div
+        <div
           key={idx}
-          className="absolute"
+          className="absolute animate-float"
           style={{
             top: el.top,
             left: el.left,
             opacity: el.opacity,
             width: el.size,
             height: el.size,
-          }}
-          animate={{
-            y: [0, -15, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: el.duration,
-            repeat: Infinity,
-            ease: "linear",
+            animationDuration: `${el.duration}s`,
+            animationDelay: `${idx * 2}s`,
           }}
         >
           <Image src={el.src} alt="bg" fill className="object-contain" unoptimized />
-        </motion.div>
+        </div>
       ))}
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0) translateX(0); }
+          50% { transform: translateY(-20px) translateX(15px); }
+        }
+        .animate-float {
+          animation: float infinite ease-in-out;
+        }
+      `}</style>
     </div>
   );
 }

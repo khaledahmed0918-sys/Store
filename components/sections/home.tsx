@@ -162,61 +162,57 @@ export function HomeSection({ setCurrentSection }: HomeSectionProps) {
 
                 {/* Card Container */}
                 <div className={`w-full pl-12 md:pl-0 md:w-[calc(50%-3rem)] ${isLeft ? 'md:mr-auto' : 'md:ml-auto'}`}>
-                  <motion.div
-                    initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    onClick={() => {
-                      if (item.type === 'section' && setCurrentSection && item.sectionKey) {
-                        setCurrentSection(item.sectionKey);
-                      }
-                    }}
-                    className={`matte-card p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden group shadow-sm hover:shadow-2xl border-primary/10 hover:border-primary/30 transition-all duration-500 ${item.type === 'section' ? 'cursor-pointer hover:bg-primary/5' : ''}`}
-                  >
-                    {/* Neon Reflection Effect (Optimized blur) */}
-                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-neon-blue/5 rounded-full blur-2xl group-hover:bg-neon-blue/10 transition-colors duration-500" />
-                    <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-neon-purple/5 rounded-full blur-2xl group-hover:bg-neon-purple/10 transition-colors duration-500" />
+                    <div
+                      onClick={() => {
+                        if (item.type === 'section' && setCurrentSection && item.sectionKey) {
+                          setCurrentSection(item.sectionKey);
+                        }
+                      }}
+                      className={`matte-card p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden group shadow-sm hover:shadow-2xl border-primary/10 hover:border-primary/30 transition-all duration-300 ${item.type === 'section' ? 'cursor-pointer hover:bg-primary/5' : ''}`}
+                    >
+                      {/* Neon Reflection Effect (Optimized blur) */}
+                      <div className="absolute -top-24 -right-24 w-48 h-48 bg-neon-blue/5 rounded-full blur-xl group-hover:bg-neon-blue/10 transition-colors duration-300" />
+                      <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-neon-purple/5 rounded-full blur-xl group-hover:bg-neon-purple/10 transition-colors duration-300" />
 
-                    <div className="flex items-center gap-5 relative z-10">
-                      <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center flex-shrink-0 text-primary">
-                        {item.iconUrl ? (
-                          <>
-                            <Image src={item.iconUrl} alt="" fill className="object-contain p-2 blur-md opacity-60 dark:opacity-100 transition-all duration-500 dark:brightness-100 brightness-0" unoptimized />
-                            <Image src={item.iconUrl} alt={t(item.titleKey)} fill className="object-contain p-2 relative z-10 dark:brightness-100 brightness-0 transition-all duration-500" unoptimized />
-                          </>
-                        ) : item.icon ? (
-                          <item.icon className="w-8 h-8 md:w-10 md:h-10" />
-                        ) : null}
+                      <div className="flex items-center gap-5 relative z-10">
+                        <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center flex-shrink-0 text-primary">
+                          {item.iconUrl ? (
+                            <>
+                              <Image src={item.iconUrl} alt="" fill className="object-contain p-2 blur-md opacity-60 dark:opacity-100 transition-all duration-300 dark:brightness-100 brightness-0" unoptimized />
+                              <Image src={item.iconUrl} alt={t(item.titleKey)} fill className="object-contain p-2 relative z-10 dark:brightness-100 brightness-0 transition-all duration-300" unoptimized />
+                            </>
+                          ) : item.icon ? (
+                            <item.icon className="w-8 h-8 md:w-10 md:h-10" />
+                          ) : null}
+                        </div>
+                        <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">{t(item.titleKey)}</h3>
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">{t(item.titleKey)}</h3>
-                    </div>
-                    
-                    <p className="text-foreground/70 text-base md:text-lg leading-relaxed relative z-10">{t(item.descKey)}</p>
-                    
-                    {item.type === 'product' && (
-                      <div className="flex justify-between items-center mt-4 pt-6 border-t border-primary/10 relative z-10">
-                        <div className="flex flex-col gap-1">
-                          <span className="text-[10px] md:text-xs text-foreground/50 uppercase tracking-widest font-bold">{t("stock")}</span>
-                          <span className="font-bold text-base md:text-lg text-foreground">
-                            {item.stockKey === "unlimited" ? t("unlimited") : `${t("left")} ${item.stockKey?.split(' ')[0]}`}
+                      
+                      <p className="text-foreground/70 text-base md:text-lg leading-relaxed relative z-10">{t(item.descKey)}</p>
+                      
+                      {item.type === 'product' && (
+                        <div className="flex justify-between items-center mt-4 pt-6 border-t border-primary/10 relative z-10">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[10px] md:text-xs text-foreground/50 uppercase tracking-widest font-bold">{t("stock")}</span>
+                            <span className="font-bold text-base md:text-lg text-foreground">
+                              {item.stockKey === "unlimited" ? t("unlimited") : `${t("left")} ${item.stockKey?.split(' ')[0]}`}
+                            </span>
+                          </div>
+                          <div className="flex flex-col items-end gap-1">
+                            <span className="text-[10px] md:text-xs text-foreground/50 uppercase tracking-widest font-bold">{t("price")}</span>
+                            <span className="font-black text-xl md:text-2xl text-gradient">{item.price}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {item.type === 'section' && (
+                        <div className="flex items-center justify-end mt-4 pt-6 border-t border-primary/10 relative z-10">
+                          <span className="text-sm font-bold text-primary group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                            {t("viewSection")} {language === 'ar' ? '←' : '→'}
                           </span>
                         </div>
-                        <div className="flex flex-col items-end gap-1">
-                          <span className="text-[10px] md:text-xs text-foreground/50 uppercase tracking-widest font-bold">{t("price")}</span>
-                          <span className="font-black text-xl md:text-2xl text-gradient">{item.price}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {item.type === 'section' && (
-                      <div className="flex items-center justify-end mt-4 pt-6 border-t border-primary/10 relative z-10">
-                        <span className="text-sm font-bold text-primary group-hover:translate-x-2 transition-transform flex items-center gap-2">
-                          {t("viewSection")} {language === 'ar' ? '←' : '→'}
-                        </span>
-                      </div>
-                    )}
-                  </motion.div>
+                      )}
+                    </div>
                 </div>
               </div>
             );
