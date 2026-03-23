@@ -16,7 +16,7 @@ const timelineItems = [
     id: "products-section",
     type: "section",
     titleKey: "products",
-    descKey: "products",
+    descKey: "productsDesc",
     icon: Package,
     side: "left",
     sectionKey: "products",
@@ -35,7 +35,7 @@ const timelineItems = [
     id: "orders-section",
     type: "section",
     titleKey: "orders",
-    descKey: "orders",
+    descKey: "ordersDesc",
     icon: ShoppingCart,
     side: "left",
     sectionKey: "orders",
@@ -54,7 +54,7 @@ const timelineItems = [
     id: "support-section",
     type: "section",
     titleKey: "support",
-    descKey: "support",
+    descKey: "supportDesc",
     icon: Headphones,
     side: "left",
     sectionKey: "support",
@@ -73,7 +73,7 @@ const timelineItems = [
     id: "policies-section",
     type: "section",
     titleKey: "policies",
-    descKey: "policies",
+    descKey: "policiesDesc",
     icon: Shield,
     side: "left",
     sectionKey: "policies",
@@ -152,7 +152,7 @@ export function HomeSection({ setCurrentSection }: HomeSectionProps) {
                 {/* Timeline Dot */}
                 <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 w-8 h-8 z-20 hidden md:flex items-center justify-center">
                   <motion.div
-                    initial={{ backgroundColor: "transparent", borderColor: "rgba(150,150,150,0.3)", boxShadow: "none" }}
+                    initial={{ backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(150,150,150,0.3)", boxShadow: "none" }}
                     whileInView={{ backgroundColor: "#0f0", borderColor: "#0f0", boxShadow: "0 0 15px rgba(0,255,0,0.6)" }}
                     viewport={{ once: true, margin: "-150px" }}
                     transition={{ duration: 0.5 }}

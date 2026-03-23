@@ -54,16 +54,14 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
     <>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-6 py-3 flex items-center justify-between shadow-2xl border border-primary/20 bg-background/40 backdrop-blur-xl transition-all duration-500 w-[95vw] max-w-7xl">
         
-        {/* Group A: Products, Orders, Policies, About Us (Left side) */}
-        <div className="hidden md:flex items-center gap-6 flex-1 justify-start">
+        {/* Group A: Products, Orders (Left side) */}
+        <div className="flex items-center gap-2 flex-1 justify-start">
           <NavItem sectionKey="products" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
           <NavItem sectionKey="orders" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
-          <NavItem sectionKey="policies" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
-          <NavItem sectionKey="aboutUs" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
         </div>
 
-        {/* Group B: Home Logo + Home Text (Absolute Center) */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 cursor-pointer z-50 group" onClick={() => setCurrentSection("home")}>
+        {/* Group B: Home Logo (Absolute Center) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer z-50 group" onClick={() => setCurrentSection("home")}>
           <div className={`relative w-10 h-10 transition-all duration-500`}>
             <Image 
               src="https://i.postimg.cc/HLzmwQxz/IMG-9248.png" 
@@ -75,17 +73,15 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
               unoptimized
             />
           </div>
-          <div className={`hidden sm:flex items-center gap-2 text-sm md:text-base font-bold transition-all duration-300 ${currentSection === 'home' ? 'text-primary' : 'text-foreground/70 group-hover:text-foreground'}`}>
-            <Home className="w-4 h-4" />
-            <span>{t("home")}</span>
-          </div>
         </div>
 
-        {/* Group C: Controls + Support (Right side) */}
-        <div className="flex items-center gap-4 flex-1 justify-end">
-          <div className="hidden md:flex items-center gap-4">
+        {/* Group C: Policies, About Us, Controls + Support (Right side) */}
+        <div className="flex items-center gap-2 flex-1 justify-end">
+          <div className="hidden md:flex items-center gap-2">
+            <NavItem sectionKey="policies" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+            <NavItem sectionKey="aboutUs" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
+            <div className="w-px h-6 bg-primary/20 mx-2" />
             <NavItem sectionKey="support" currentSection={currentSection} setCurrentSection={setCurrentSection} t={t} language={language} />
-            <div className="w-px h-6 bg-primary/20" />
             <button
               onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
               className="p-2 rounded-full hover:bg-primary/10 transition-all duration-300 text-foreground"
@@ -107,7 +103,7 @@ export function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
           </div>
           
           {/* Mobile Controls */}
-          <div className="md:hidden flex items-center gap-4">
+          <div className="md:hidden flex items-center justify-between w-full px-2 gap-1">
             <button
               onClick={() => setCurrentSection("support")}
               className={`p-2 rounded-full transition-all duration-300 ${currentSection === 'support' ? 'text-primary bg-primary/10' : 'text-foreground/70 hover:text-foreground hover:bg-primary/10'}`}
